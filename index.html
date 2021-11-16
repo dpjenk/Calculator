@@ -10,28 +10,32 @@
 </head>
 <body>
     <div class="container">
-        <div class="calc">
-            <input type="text" id="inputext" placeholder="0">
-            <button onclick="clr()">C</button>
-            <button onclick="del()">CE</button>
-            <button onclick="calculate('%')">%</button>
-            <button onclick="calculate('/')" class="operator">&#247</button>
-            <button onclick="calculate(7)">7</button>
-            <button onclick="calculate(8)">8</button>
-            <button onclick="calculate(9)">9</button>
-            <button onclick="calculate('*')" class="operator">&#215</button>
-            <button onclick="calculate(4)">4</button>
-            <button onclick="calculate(5)">5</button>
-            <button onclick="calculate(6)">6</button>
-            <button onclick="calculate('-')" class="operator">&#45</button>
-            <button onclick="calculate(1)">1</button>
-            <button onclick="calculate(2)">2</button>
-            <button onclick="calculate(3)">3</button>
-            <button onclick="calculate('+')" class="operator">&#43</button>
-            <button onclick="calculate(0)">0</button>
-            <button onclick="calculate('.')">.</button>
-            <button onclick="Result()" class="equal">&#61</button>
-        </div>
+        <div class="calculator">
+
+            <div class="screen">
+                <div data-previous-operand class="previous-operand"></div>
+                <div data-current-operand class="current-operand"></div>
+            </div>
+            
+            <button data-clear class="span-two">C</button>
+            <button data-delete>CE</button>
+            <button data-operation class="operation">&divide;</button>
+            <button data-number>7</button>
+            <button data-number>8</button>
+            <button data-number>9</button>
+            <button data-operation class="operation">&times;</button>
+            <button data-number>4</button>
+            <button data-number>5</button>
+            <button data-number>6</button>
+            <button data-operation class="operation">&minus;</button>
+            <button data-number>1</button>
+            <button data-number>2</button>
+            <button data-number>3</button>
+            <button data-operation class="operation">&plus;</button>
+            <button data-number>0</button>
+            <button data-number>.</button>
+            <button data-equals class="span-two operation">&equals;</button>  
     </div>
+        </div>
 </body>
 </html>
