@@ -33,23 +33,13 @@
     flex-direction: column;
     margin: 40px auto;
     padding: 20px;
-    height: 100px;
+    height: 150px;
     width: 300px;
     border-radius: 30px;
+    word-wrap: break-word;
+    word-break: break-all;
+
 }
-/*.screen {
-    grid-column: span 4;
-    height: 70px;
-    width: 250px;
-    background-color: #ecf0f3;
-    border: none;
-    border-radius: 30px;
-    color: #1a1919;
-    text-align: end;
-    margin: 40px auto;
-    padding: 20px;
-    font-size: 50px;
-}*/
 
 button {
     background-color: #ecf0f3;
@@ -74,12 +64,12 @@ button {
     color: #ecf0f3;
 }
 
-.previous-operand {
+.previous-screen {
     color: #1a1919;
-    font-size: 1.5rem;
+    font-size: 1.0rem;
 }
 
-.current-operand {
+.current-screen {
     color: #1a1919;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
 }

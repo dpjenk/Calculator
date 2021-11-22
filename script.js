@@ -1,86 +1,122 @@
-class Calculator {
-    constructor(previousOperandTextElement, currentOperandTextElement) {
-        this.previousOperandTextElement = previousOperandTextElement;
-        this.currentOperandTextElement = currentOperandTextElement;
-        this.clear();
+let firstOperand = " ";
+let secondOperand = " ";
+let currentOperation= null;
+let doResetScreen = false;
+
+const numberButtons = document.querySelectorAll("[data-number]");
+const operationButtons = document.querySelectorAll("[data-operation]");
+const equalsButton = document.querySelector("[data-equals]");
+const deleteButton = document.querySelector("[data-delete]");
+const clearButton = document.querySelector("[data-clear]");
+const decimalButton = document.querySelector("[data-decimal]");
+const previousOperationScreen = document.querySelector("[data-previous-screen]");
+const currentOperationScreen = document.querySelector("[data-current-screen]");
+
+equalsButton.addEventListener('click', compute);
+clearButton.addEventListener('click', clear);
+deleteButton.addEventListener('click', deleteNumber);
+decimalButton.addEventListener('click', appendDecimal);
+
+numberButtons.forEach((button => 
+    button.addEventListener('click', () => appendNumber(button.textContent)))
+);
+
+operationButtons.forEach((button => 
+    button.addEventListener('click', () => chooseOperation(button.textContent)))
+);
+
+function appendNumber(number) {
+    if (currentOperationScreen.textContent === "0" || doResetScreen)
+    resetScreen();
+    if (currentOperationScreen.textContent.length === 15) return;
+    currentOperationScreen.textContent += number;
+}
+
+function resetScreen() {
+    currentOperationScreen.textContent = " ";
+    doResetScreen = false;
+}
+
+function clear() {
+    currentOperationScreen.textContent = "0";
+    previousOperationScreen.textContent = "";
+    firstOperand = " ";
+    secondOperand = " ";
+    currentOperation = null;
+}
+
+function appendDecimal() {
+    if (doResetScreen) resetScreen();
+    if (currentOperationScreen.textContent === " ")
+    currentOperationScreen.textContent = "0";
+    if (currentOperationScreen.textContent.includes(".")) return;
+    currentOperationScreen.textContent += ".";
+}
+
+function deleteNumber () {
+    currentOperationScreen.textContent = currentOperationScreen.textContent.toString().slice(0, -1);
+}
+
+function chooseOperation(operation) {
+    if (currentOperation !== null) compute();
+    firstOperand = currentOperationScreen.textContent;
+    currentOperation = operation;
+    previousOperationScreen.textContent = `${firstOperand} ${currentOperation}`;
+    doResetScreen = true;
+}
+
+function compute() {
+    if (currentOperation === null || doResetScreen) return;
+    if(currentOperation === "÷" && currentOperationScreen.textContent === "0") {
+        alert("You cannot divide by 0!!!");
+        return;
     }
 
-    clear() {
-        this.currentOperand = "0";
-        this.previousOperand = " ";
-        this.operation = undefined;
+    secondOperand = currentOperationScreen.textContent;
+    currentOperationScreen.textContent = roundResult(
+        operate(currentOperation, firstOperand, secondOperand)
+    );
+    previousOperationScreen.textContent = `${firstOperand} ${currentOperation} ${secondOperand} =`;
+    currentOperation = null;
+}
+
+function roundResult(number) {
+    return Math.round(number * 100) / 100;
+}
+
+function add(a, b) {
+    return a + b;
+}
+
+function subtract(a, b) {
+    return a - b;
+}
+
+function multiply(a, b) {
+    return a * b;
+}
+
+function divide(a, b) {
+    return a / b;
+}
+
+function operate(operation, a, b) {
+    a = Number (a);
+    b = Number(b);
+    switch(operation) {
+        case "+":
+            return add(a, b);
+            break;
+        case "-":
+            return subtract(a, b);
+            break;
+        case "✕":
+            return multiply(a, b);
+            break;
+            case "÷":
+                if (b === 0) return null;
+                else return divide(a, b);
+        default:
+            return null;
     }
-
-    delete() {
-        this.currentOperand = this.currentOperand.toString().slice(0, -1);
-    }
-
-    appendNumber(number) {
-        if (
-            number === "." && this.currentOperand.includes(".")) return;
-        this.currentOperand = this.currentOperand.toString() + number.toString();
-    }
-
-    chooseOperation(operation) {
-        if(this.currentOperand === " ") return;
-        if(this.previousOperand !== " ") {
-            this.compute();
-        }
-        this.operation = operation;
-        this.previousOperand = this.currentOperand;
-        this.currentOperand = " ";
-    }
-
-    compute() {
-        let computation;
-        const prev = parseFloat(this.previousOperand);
-        const current = parseFloat(this.currentOperand);
-        if (isNaN(prev) || isNaN(current)) return;
-        switch (this.operation) {
-            case "&plus;":
-                computation = prev + current
-                break;
-            case "&minus;":
-                computation = prev - current
-                break;
-            case "&times;":
-                computation = prev * current
-                break;
-            case "&divide;":
-                computation = prev / current
-                break;
-            default:
-                return;
-        }
-        this.currentOperand = computation;
-        this.operation = undefined;
-        this.previousOperand = " ";
- }
-    getDisplayNumber (number) {
-        const stringNumber = number.toString();
-        const integerDigits = parseFloat(stringNumber.split(".")[0]);
-        const decimalDigits = stringNumber.split(".")[1];
-        let integerDisplay;
-        if(isNaN (integerDigits)) {
-            integerDisplay = " ";   
-        } else {
-            integerDisplay = integerDigits.toLocaleString("en"), {maximumFractionDigits: 0});
-        }
-        if (decimalDigits != null) {
-            return `${integerDisplay}.${decimalDigits}`;
-        } else {
-            return integerDisplay;
-        }
-    }
-
-    updateDisplay() {
-        
-    }
-
-
-
-
-
-
-
 }
