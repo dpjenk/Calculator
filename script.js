@@ -120,3 +120,4 @@ function operate(operation, a, b) {
             return null;
     }
 }
+
